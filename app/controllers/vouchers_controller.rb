@@ -24,7 +24,24 @@ class VouchersController < ApplicationController
   # POST /vouchers
   # POST /vouchers.json
   def create
+    # makeitbeabletofind
+    restaurant = Restaurant.find_by(name: params["voucher"][:restaurant])
+    restaurant = create_restaurant(params["voucher"][:restaurant]) if restaurant.nil?
+    # lalalal
     @voucher = Voucher.new(voucher_params)
+    @voucher[:restaurant] = Restaurant.last
+    # @voucher = Voucher.new(
+    #   cost: voucher_params[:cost],
+    #   notes: voucher_params[:notes],
+    #   restaurant: restaurant
+    # )
+
+    #     @post = Post.new(
+    #   photo: params["post"][:photo],
+    #   note: params["post"][:note],
+    #   place: place,
+    #   user: current_user
+    # )
 
     respond_to do |format|
       if @voucher.save
@@ -59,6 +76,12 @@ class VouchersController < ApplicationController
       format.html { redirect_to vouchers_url, notice: 'Voucher was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def create_restaurant(params)
+    restaurant = Restaurant.new(name: params)
+    restaurant.save
+    return restaurant
   end
 
   private
