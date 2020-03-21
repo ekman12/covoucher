@@ -24,25 +24,11 @@ class VouchersController < ApplicationController
   # POST /vouchers
   # POST /vouchers.json
   def create
-    # makeitbeabletofind
     restaurant = Restaurant.find_by(name: params["voucher"][:restaurant])
     restaurant = create_restaurant(params["voucher"][:restaurant]) if restaurant.nil?
-    # lalalal
+
     @voucher = Voucher.new(voucher_params)
-    @voucher[:restaurant] = Restaurant.last
-    # @voucher = Voucher.new(
-    #   cost: voucher_params[:cost],
-    #   notes: voucher_params[:notes],
-    #   restaurant: restaurant
-    # )
-
-    #     @post = Post.new(
-    #   photo: params["post"][:photo],
-    #   note: params["post"][:note],
-    #   place: place,
-    #   user: current_user
-    # )
-
+    @voucher[:restaurant] = restaurant
     respond_to do |format|
       if @voucher.save
         format.html { redirect_to @voucher, notice: 'Voucher was successfully created.' }
