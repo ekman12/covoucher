@@ -24,8 +24,11 @@ class VouchersController < ApplicationController
   # POST /vouchers
   # POST /vouchers.json
   def create
-    @voucher = Voucher.new(voucher_params)
+    restaurant = Restaurant.find_by(name: params["voucher"][:restaurant])
+    restaurant = create_restaurant(params["voucher"][:restaurant]) if restaurant.nil?
 
+    @voucher = Voucher.new(voucher_params)
+    @voucher[:restaurant] = restaurant
     respond_to do |format|
       if @voucher.save
         format.html { redirect_to @voucher, notice: 'Voucher was successfully created.' }
@@ -59,6 +62,12 @@ class VouchersController < ApplicationController
       format.html { redirect_to vouchers_url, notice: 'Voucher was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def create_restaurant(params)
+    restaurant = Restaurant.new(name: params)
+    restaurant.save
+    return restaurant
   end
 
   private

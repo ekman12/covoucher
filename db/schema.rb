@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_21_113608) do
+ActiveRecord::Schema.define(version: 2020_03_21_124329) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string "name"
@@ -24,11 +24,7 @@ ActiveRecord::Schema.define(version: 2020_03_21_113608) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "vouchers", force: :cascade do |t|
-    t.integer "cost"
-    t.string "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+# Could not dump table "vouchers" because of following StandardError
+#   Unknown type 'reference' for column 'restaurant'
 
 end
